@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Counter from "./components/Counter";
+import Receipts from "./components/Receipts";
+import Ingredients from "./components/Ingredients";
+import Forms from "./components/Forms/Forms";
+import AddContact from "./components/AddContact.jsx";
+import ContactList from "./components/ContactList";
 
-function App() {
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const App = () => {
+  let [contacts, setContacts] = useState([]);
+  function handleNewContact(newContact) {
+    let newContactsArray = [...contacts];
+    newContactsArray.push(newContact);
+
+    setContacts(newContactsArray);
+  }
+
+  function handleDeleteContact(id) {
+    let newContactsArray = contacts.filter((item) => {
+      return item.id !== id;
+    });
+    setContacts(newContactsArray);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Counter />
+      <Receipts />
+      <Ingredients />
+      <Forms />
+      <AddContact handleNewContact={handleNewContact} />
+      <ContactList
+        contacts={contacts}
+        handleDeleteContact={handleDeleteContact}
+      />
     </div>
   );
-}
+};
 
 export default App;
